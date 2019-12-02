@@ -8,7 +8,7 @@ const Overflow = styled.div `
   @media (min-width: 700px) {
     margin-top: 86px;
   }
-  height:450px;
+  height: 600px;
   display: flex;
 `;
 
@@ -36,6 +36,11 @@ const Container = styled.div `
   padding-right: 20px;
 `;
 
+const ContainerFluid = styled(Container) `
+   max-width: none;
+   padding: 0;
+`;
+
 const ContainerB = styled.div `
   margin-left: -430px;
   max-width: 1920px;
@@ -43,6 +48,8 @@ const ContainerB = styled.div `
 
 const ContainerGrey = styled.div `
   background-color: #f4f4f7;
+  margin-top: -75;
+  padding-top: 75;
 `;
 
 const ContainerBlue = styled.div `
@@ -53,15 +60,33 @@ const ContainerBlue = styled.div `
 `;
 
 const SectionTitle = styled.div `
-  font-size: 30px;
-  margin-bottom: 23px;
-  width: 100%;
+  font-size: 24px;
   text-align: center;
-  padding-top:60px;
+  color: #215F68;
+  font-weight: 700;
+  margin-top: 75px;
+`;
+
+const SectionTitleColored = styled.p `
+  font-size: 24px;
+  text-align: center;
+  color: #215F68;
+  font-weight: 700;
+  margin-top: 70px;
 `;
 
 const SectionTitleLight = styled(SectionTitle)`
   color: white;
+`;
+
+const SectionSubTitleDark = styled(SectionTitle)`
+  color: #1D1E21;
+  font-size: 18;
+  max-width: 430;
+  margin: 0 auto;
+  font-weight: initial;
+  padding-top: 12;
+  padding-bottom: 39;
 `;
 
 export {
@@ -73,4 +98,7 @@ export {
   OverflowS,
   SectionTitle,
   SectionTitleLight,
+  SectionTitleColored,
+  SectionSubTitleDark,
+  ContainerFluid,
 }

@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react/index';
 import ModalVideo from 'react-modal-video';
-import { FormattedHTMLMessage } from 'react-intl';
 import styled from 'styled-components';
 
-import { Container, ContainerB, ContainerBlue, OverflowS } from './../css';
+import { Container, ContainerB } from './../css';
 import TitleIconBlock from './TitleIconBlock';
 import aboutIconSVG from '../assets/about.svg';
 

@@ -2,15 +2,13 @@ import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react/index';
 import ModalVideo from 'react-modal-video';
-import SweetAlert from 'react-bootstrap-sweetalert';
 import { FormattedHTMLMessage } from 'react-intl';
-import OutsideClickHandler from 'react-outside-click-handler';
 import styled from 'styled-components';
 
-import { Container, ContainerGrey, Overflow, SectionTitle } from './../css';
-import Roadmap from './Roadmap';
-import Technologies from './Technologies';
+import { Container, Overflow, SectionTitle } from './../css';
 import Collaborators from './Collaborators';
+import Blog from './Blog';
+import ContactUs from './ContactUs';
 
 const MainTitle = styled.div`
   color: #FFFFFF;	
@@ -19,6 +17,10 @@ const MainTitle = styled.div`
   font-weight: bold;	
   line-height: 72px;
   letter-spacing: 2px;
+
+  @media (max-width: 700px) {
+    text-align: center;
+  }
 `;
 
 const SubTitle = styled.div`
@@ -27,8 +29,12 @@ const SubTitle = styled.div`
   font-family: Rubik;	
   font-size: 20px;	
   line-height: 24px;
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 10px;
+
+  @media (max-width: 700px) {
+    text-align: center;
+  }
 `;
 
 const SubSubTitle = styled.div`
@@ -38,6 +44,7 @@ const SubSubTitle = styled.div`
   margin-top: 6px;
   display: flex;
   align-items: center;
+  margin-top: 15px;
 `;
 
 const MainText = styled.div`
@@ -60,7 +67,7 @@ const MainImage = styled.div`
 
 const Right = styled.div`
   @media (min-width: 700px) {
-    margin: 130px 0 0 8%;
+    margin: 50px 0 0 8%;
   }
   @media (max-width: 700px) {
     margin: 0 8px 0 8px;
@@ -73,7 +80,7 @@ const Right = styled.div`
 
 const Left = styled.div`
   @media (min-width: 700px) {
-    margin: 130px 50% 0 0;
+    margin: 50px 50% 0 0;
   }
   @media (max-width: 700px) {
     margin: 0 8px 0 8px;
@@ -92,10 +99,18 @@ const Square = styled.div`
 const SquareImage = styled.img`
   height: 330px;
   width: 350px;
+
+  @media (max-width: 700px) {
+    display: none;
+  }
 `;
 
 const SquareText = styled.div`
   flex: 1;
+
+  @media (max-width: 700px) {
+    margin: 0
+  }
 `;
 
 const SquareTextTitle = styled.div`
@@ -199,15 +214,14 @@ const WatchVideo = styled.div`
     width: 190x;
     margin-top: 16px;
   }
-
   text-transform: uppercase;
   align-items: center;
   justify-content: center;
+  line-height: 50;
   height: 46px;
-  margin-right: 10px;
-  border-radius: 8px;
+  border-radius: 0;
   width: 190px;
-  box-shadow: 0 2px 48px 0 #184dcf;
+  box-shadow: 0 2px 48px 0 rgba(83,81,81,0.5);
   padding-left: 8px;
   padding-right: 8px;
 
@@ -226,11 +240,14 @@ const WatchVideo = styled.div`
 `;
 
 const WatchVideoImage = styled.span`
-  width: 30px;
-  height: 30px;
-  display: flex;
-  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  float: left;
+  margin-top: 15px;
+  margin-left: 15px;
+  margin-right: 5px;
   background: url('./assets/playbtn.svg') center no-repeat;
+  background-size: 20px 20px;
   border: 0;
 `;
 
@@ -257,6 +274,10 @@ const CheckMark2 = styled(CheckMark)`
 const EmurgoLogo = styled.img`
   margin-left: 6px;
   width: 115px;
+
+  @media (max-width: 700px) {
+    margin: 0 auto;
+  }
 `;
 
 const ContainerBottom = styled(Container)`
@@ -266,19 +287,22 @@ const ContainerBottom = styled(Container)`
 
 const DropdownButton = styled.div`
   cursor: pointer;
-  flex: 1;
+  clear: both;
   height: 49px;	
   width: 190px;	
   min-width: 160px;
-  border-radius: 8px;	
-  background-color: #17D1AA;	
+  border-radius: 0;	
+  background-color: transparent;	
+  border: solid 2px white;
+  text-align: center;
   margin-bottom:5px;
-  box-shadow: 0 2px 48px 0 rgba(83,81,81,0.5);
   color: #ffffff;
   display: block;
   overflow:hidden;
-  &:hover{
-    background-color: #14E2B8;
+  box-shadow: 0 2px 48px 0 rgba(83,81,81,0.5);
+  &:hover{    
+    background: rgba(255,255,255,0.15);
+    box-shadow: 0 2px 48px 0 rgba(83,81,81,0.5);
   }
 `;
 
@@ -302,9 +326,6 @@ const DropdownContent = styled.div`
     font-size: 14px;
     
   }
-  a:hover {
-    background-color: #14E2B8
-  }
 `;
 
 const Download = styled.div`
@@ -315,12 +336,7 @@ const Download = styled.div`
   font-size: 15px;	
   font-weight: initial;	
   line-height: 40px; 
-  flex: 0.8;
-
-  :hover ${DropdownButton} {
-    background-color: #14E2B8;
-    align-items:left;
-  }
+  flex: 1;
 `;
 
 const DownloadItemImage = styled.img`
@@ -331,11 +347,18 @@ const DownloadItemImage = styled.img`
 `;
 
 const DownloadLabel = styled.div`
-  margin-left: 15px;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 400;
   margin-top: 5px;
   text-transform: uppercase;
+`;
+
+const ImageContainer = styled.img`
+  background: url('./assets/guy.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 600px;
 `;
 
 /**
@@ -380,7 +403,7 @@ class App extends Component {
       <span>
         <ContainerBottom>
           <Video isOpen={this.state.video} channel="youtube" videoId="DHtEgLMslIQ" onClose={() => this.setState({ video: false })} />
-          <Overflow style={{marginTop: '94px', marginLeft: '-37px'}}>
+          <Overflow style={{marginTop: '194px', marginLeft: '-37px'}}>
             <MainText>
               <MainTitle>
                 <YoroiInfo>
@@ -396,85 +419,19 @@ class App extends Component {
               <MainButtons>
                 <Download style={{marginRight: '20px'}}>
                   <DropdownButton onClick={this.showDropdownMenu}>
-                    <DownloadLabel>{formatMessage({id: 'header.download'})}</DownloadLabel>
-                    <img
-                      style= {{marginLeft:'158px', marginTop: '-31px'}}
-                      src="./assets/arrow down.svg"
-                    />
+                    <DownloadLabel>{formatMessage({id: 'header.learn-more'})}</DownloadLabel>
                   </DropdownButton>
-                  { this.state.showDownloadDropdown &&
-                    <OutsideClickHandler onOutsideClick={this.hideDropdownMenu}>
-                      <DropdownContent>
-                        <a
-                          rel="noopener"
-                          target= '_blank'
-                          href= "https://chrome.google.com/webstore/detail/yoroi/ffnbelfdoeiohenkjibnmadjiehjhajb"
-                        >
-                          <DownloadItemImage
-                            style={{  width: '16px', height: '16px', marginLeft: '5px', marginRight: '10px' }}
-                            src="./assets/chrome.svg"
-                          />
-                          {formatMessage({id: 'download.mainnet.chrome'})}
-                        </a>
-                        <a
-                          rel="noopener"
-                          target= '_blank'
-                          href= "https://chrome.google.com/webstore/detail/yoroi-shelley-testnet/bioklcnnnpdblghplkifbemcigeanmjn"
-                        >
-                          <DownloadItemImage
-                            style={{  width: '16px', height: '16px', marginLeft: '5px', marginRight: '10px' }}
-                            src="./assets/chrome.svg"
-                          />
-                          {formatMessage({id: 'download.testnet.chrome'})}
-                        </a>                        
-                        <a
-                          rel="noopener"
-                          target= '_blank'
-                          href="https://addons.mozilla.org/en-US/firefox/addon/yoroi/"
-                        >
-                          <DownloadItemImage src="./assets/firefox.svg" />
-                          {formatMessage({id: 'download.mainnet.firefox'})}
-                        </a>
-                        <a
-                          rel="noopener"
-                          target= '_blank'
-                          href="https://addons.mozilla.org/en-US/firefox/addon/yoroi-shelley-testnet/"
-                        >
-                          <DownloadItemImage src="./assets/firefox.svg" />
-                          {formatMessage({id: 'download.testnet.firefox'})}
-                        </a>                        
-                        <a
-                          rel="noopener"
-                          target= '_blank'
-                          href="https://play.google.com/store/apps/details?id=com.emurgo&hl=en"
-                        >
-                          <DownloadItemImage src="./assets/google-play.svg" />
-                          {formatMessage({id: 'download.mainnet.android'})}
-                        </a>
-                        <a
-                          rel="noopener"
-                          target= '_blank'
-                          href="https://apps.apple.com/us/app/emurgos-yoroi-cardano-wallet/id1447326389"
-                        >
-                          <DownloadItemImage src="./assets/apple.svg" />
-                          {formatMessage({id: 'download.mainnet.ios'})}
-                        </a>
-                      </DropdownContent>
-                    </OutsideClickHandler>
-                  }
                 </Download>
-                <WatchVideo onClick={this.openVideo} style={{marginTop: '-7px'}}>
-                  <span>
+                <Download style={{marginRight: '20px'}}>
+                  <DropdownButton onClick={this.showDropdownMenu}>
                     <WatchVideoImage />
-                  </span>
-                  <div style={{ width: '140px'}}>
-                    <WatchVideoText> {formatMessage({ id: 'home.title.watch-the-video' })} </WatchVideoText>
-                  </div>
-                </WatchVideo>
+                    <DownloadLabel>{formatMessage({id: 'home.title.watch-the-video'})}</DownloadLabel>
+                  </DropdownButton>
+                </Download>
               </MainButtons>
             </MainText>
           </Overflow>
-          <MainImage/>
+          <SectionTitle>{formatMessage({id: 'home.title.About'})}</SectionTitle>
           <Left>
             <SquareText style={{marginLeft: '502px'}}>
               <SquareTextTitle >{formatMessage({ id: 'home.properties.secure' })}</SquareTextTitle>
@@ -512,9 +469,10 @@ class App extends Component {
             </square>
           </Left>
         </ContainerBottom>
+        <ImageContainer />
         <Collaborators />
-        <Roadmap />
-        <Technologies />
+        <Blog />
+        <ContactUs />
       </span>
     );
 
